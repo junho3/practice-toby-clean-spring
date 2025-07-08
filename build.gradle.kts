@@ -30,7 +30,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
+
+	// developmentOnly: 패키징을 하지 않은 로컬 환경에서만 동작
+	// jar 파일로 패키징할 때는 동작하지 않음
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.projectlombok:lombok")
