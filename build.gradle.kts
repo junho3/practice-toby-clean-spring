@@ -1,3 +1,6 @@
+// Java 프로젝트에서도 gradle - kotlin으로 진행
+// kotlin으로 되어 있어서 ide에서 빌드스크립트를 제어하기 좋음
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.5.3"
