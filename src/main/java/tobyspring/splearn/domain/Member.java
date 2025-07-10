@@ -9,7 +9,7 @@ public class Member {
 
     private MemberStatus status;
 
-    public Member(String email, String nickname, String passwordHash, MemberStatus status) {
+    public Member(String email, String nickname, String passwordHash) {
         this.email = email;
         this.nickname = nickname;
         this.passwordHash = passwordHash;
