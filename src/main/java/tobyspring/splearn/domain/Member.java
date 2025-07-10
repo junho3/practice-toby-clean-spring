@@ -2,6 +2,8 @@ package tobyspring.splearn.domain;
 
 import java.util.Objects;
 
+import static org.springframework.util.Assert.state;
+
 public class Member {
     private String email;
 
@@ -32,5 +34,11 @@ public class Member {
 
     public MemberStatus getStatus() {
         return status;
+    }
+
+    public void activate() {
+        state(MemberStatus.PENDING == status, "PENDING 상태가 아닙니다.");
+
+        this.status = MemberStatus.ACTIVE;
     }
 }
