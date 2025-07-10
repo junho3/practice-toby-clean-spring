@@ -25,7 +25,7 @@ class MemberTest {
     }
 
     @Test
-    @DisplayName("Member를 활성 상태로 변경한다.")
+    @DisplayName("activate()는 Member를 활성 상태로 변경한다.")
     void test3() {
         var member = new Member("test.app", "test", "password");
 
@@ -35,13 +35,39 @@ class MemberTest {
     }
 
     @Test
-    @DisplayName("활성 상태인 Member를 활성 상태로 변경이 실패한다.")
+    @DisplayName("activate()는 활성 상태인 Member를 활성 상태로 변경이 실패한다.")
     void test4() {
         var member = new Member("test.app", "test", "password");
 
         member.activate();
 
         assertThatThrownBy(member::activate)
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    @DisplayName("deactivate()는 Member를 탈퇴 상태로 변경한다.")
+    void test5() {
+        var member = new Member("test.app", "test", "password");
+        member.activate();
+
+        member.deactivate();
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+    }
+
+    @Test
+    @DisplayName("deactivate()는 활성 상태가 아니라면 탈퇴 상태 변경이 실패한다.")
+    void test6() {
+        var member = new Member("test.app", "test", "password");
+
+        assertThatThrownBy(member::deactivate)
+                .isInstanceOf(IllegalStateException.class);
+
+        member.activate();
+        member.deactivate();
+
+        assertThatThrownBy(member::deactivate)
                 .isInstanceOf(IllegalStateException.class);
     }
 }
