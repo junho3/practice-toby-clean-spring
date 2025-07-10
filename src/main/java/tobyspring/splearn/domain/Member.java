@@ -1,12 +1,34 @@
 package tobyspring.splearn.domain;
 
 public class Member {
-    String email;
+    private String email;
 
-    String nickname;
+    private String nickname;
 
-    String passwordHash;
+    private String passwordHash;
 
-    MemberStatus status;
+    private MemberStatus status;
 
+    public Member(String email, String nickname, String passwordHash, MemberStatus status) {
+        this.email = email;
+        this.nickname = nickname;
+        this.passwordHash = passwordHash;
+        this.status = MemberStatus.PENDING;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public MemberStatus getStatus() {
+        return status;
+    }
 }
