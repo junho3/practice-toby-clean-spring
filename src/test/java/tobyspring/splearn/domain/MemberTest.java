@@ -91,4 +91,22 @@ class MemberTest {
         assertThat(member.verifyPassword("password", passwordEncoder)).isTrue();
         assertThat(member.verifyPassword("fail", passwordEncoder)).isFalse();
     }
+
+    @Test
+    @DisplayName("changeNickname()")
+    void test8() {
+        assertThat(member.getNickname()).isEqualTo("test");
+
+        member.changeNickname("apple");
+
+        assertThat(member.getNickname()).isEqualTo("apple");
+    }
+
+    @Test
+    @DisplayName("changePassword()")
+    void test9() {
+        member.changePassword("newPassword", passwordEncoder);
+
+        assertThat(member.verifyPassword("newPassword", passwordEncoder)).isTrue();
+    }
 }
