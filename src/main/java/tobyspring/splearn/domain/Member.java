@@ -3,8 +3,7 @@ package tobyspring.splearn.domain;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Objects;
-
+import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
 @Getter
@@ -18,15 +17,18 @@ public class Member {
 
     private MemberStatus status;
 
-    private Member(String email, String nickname, String passwordHash) {
-        this.email = Objects.requireNonNull(email);
-        this.nickname = Objects.requireNonNull(nickname);
-        this.passwordHash = Objects.requireNonNull(passwordHash);
-        this.status = MemberStatus.PENDING;
+    private Member() {
     }
 
-    public static Member create(String email, String nickname, String password, PasswordEncoder passwordEncoder) {
-        return new Member(email, nickname, passwordEncoder.encode(password));
+    public static Member create(MemberCreateRequest memberCreateRequest, PasswordEncoder passwordEncoder) {
+        Member member = new Member();
+
+        member.email = requireNonNull(memberCreateRequest.email());
+        member.nickname = requireNonNull(memberCreateRequest.nickname());
+        member.passwordHash = requireNonNull(passwordEncoder.encode(memberCreateRequest.password()));
+        member.status = MemberStatus.PENDING;
+
+        return member;
     }
 
     public void activate() {
@@ -46,11 +48,11 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
-        this.nickname = Objects.requireNonNull(nickname);
+        this.nickname = requireNonNull(nickname);
     }
 
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
-        this.passwordHash = passwordEncoder.encode(Objects.requireNonNull(password));
+        this.passwordHash = passwordEncoder.encode(requireNonNull(password));
     }
 
     public boolean isActive() {

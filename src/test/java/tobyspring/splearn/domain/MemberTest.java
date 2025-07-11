@@ -28,7 +28,7 @@ class MemberTest {
             }
         };
 
-        this.member = Member.create("test.app", "test", "password", passwordEncoder);
+        this.member = Member.create(new MemberCreateRequest("test.app", "test", "password"), passwordEncoder);
     }
 
     @Test
@@ -41,7 +41,7 @@ class MemberTest {
     @Test
     @DisplayName("생성자 NULL 체크")
     void test2() {
-        assertThatThrownBy(() -> Member.create(null, "test", "password", passwordEncoder))
+        assertThatThrownBy(() -> Member.create(new MemberCreateRequest(null, "test", "password"), passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
 
