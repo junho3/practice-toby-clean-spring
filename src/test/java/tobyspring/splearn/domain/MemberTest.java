@@ -109,4 +109,18 @@ class MemberTest {
 
         assertThat(member.verifyPassword("newPassword", passwordEncoder)).isTrue();
     }
+
+    @Test
+    @DisplayName("ACTIVE 상태 체크")
+    void test10() {
+        assertThat(member.isActive()).isFalse();
+
+        member.activate();
+
+        assertThat(member.isActive()).isTrue();
+
+        member.deactivate();
+
+        assertThat(member.isActive()).isFalse();
+    }
 }
