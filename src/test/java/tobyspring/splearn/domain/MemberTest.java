@@ -28,7 +28,7 @@ class MemberTest {
             }
         };
 
-        this.member = Member.create(new MemberCreateRequest("test.app", "test", "password"), passwordEncoder);
+        this.member = Member.create(new MemberCreateRequest("test@app.com", "test", "password"), passwordEncoder);
     }
 
     @Test
@@ -122,5 +122,15 @@ class MemberTest {
         member.deactivate();
 
         assertThat(member.isActive()).isFalse();
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 이메일 검증")
+    void test11() {
+        assertThatThrownBy(() ->
+                Member.create(new MemberCreateRequest("invalid email", "nick", "pass"), passwordEncoder)
+        ).isInstanceOf(IllegalArgumentException.class);
+
+        Member.create(new MemberCreateRequest("email@github.com", "nick", "pass"), passwordEncoder);
     }
 }
