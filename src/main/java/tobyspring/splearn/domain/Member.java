@@ -23,7 +23,7 @@ public class Member {
     public static Member create(MemberCreateRequest memberCreateRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
-        member.email = new Email(requireNonNull(memberCreateRequest.email()));
+        member.email = new Email(memberCreateRequest.email());
         member.nickname = requireNonNull(memberCreateRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(memberCreateRequest.password()));
         member.status = MemberStatus.PENDING;
