@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
@@ -20,6 +22,7 @@ import static org.springframework.util.Assert.state;
 @Getter
 @Entity
 @ToString
+@NaturalIdCache // 영속성 컨텍스트에서 @NaturalId가 붙은 필드를 기준으로 캐싱해줌
 @NoArgsConstructor(access = PROTECTED)
 public class Member {
     @Id
@@ -27,6 +30,7 @@ public class Member {
     private Long id;
 
     @Embedded
+    @NaturalId // hibernate에서 제공하는 어노테이션으로 테이블 생성 시 컬럼에 유니크키 설정이 됨
     private Email email;
 
     private String nickname;
