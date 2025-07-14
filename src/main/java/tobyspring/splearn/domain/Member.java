@@ -1,9 +1,6 @@
 package tobyspring.splearn.domain;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -26,6 +23,7 @@ import static org.springframework.util.Assert.state;
 @NoArgsConstructor(access = PROTECTED)
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
@@ -35,7 +33,7 @@ public class Member {
 
     private String passwordHash;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     public static Member register(MemberRegisterRequest memberRegisterRequest, PasswordEncoder passwordEncoder) {
