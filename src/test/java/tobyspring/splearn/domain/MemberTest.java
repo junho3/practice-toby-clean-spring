@@ -28,7 +28,7 @@ class MemberTest {
             }
         };
 
-        this.member = Member.create(new MemberCreateRequest("test@app.com", "test", "password"), passwordEncoder);
+        this.member = Member.register(new MemberRegisterRequest("test@app.com", "test", "password"), passwordEncoder);
     }
 
     @Test
@@ -41,7 +41,7 @@ class MemberTest {
     @Test
     @DisplayName("생성자 NULL 체크")
     void test2() {
-        assertThatThrownBy(() -> Member.create(new MemberCreateRequest(null, "test", "password"), passwordEncoder))
+        assertThatThrownBy(() -> Member.register(new MemberRegisterRequest(null, "test", "password"), passwordEncoder))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -128,9 +128,9 @@ class MemberTest {
     @DisplayName("유효하지 않은 이메일 검증")
     void test11() {
         assertThatThrownBy(() ->
-                Member.create(new MemberCreateRequest("invalid email", "nick", "pass"), passwordEncoder)
+                Member.register(new MemberRegisterRequest("invalid email", "nick", "pass"), passwordEncoder)
         ).isInstanceOf(IllegalArgumentException.class);
 
-        Member.create(new MemberCreateRequest("email@github.com", "nick", "pass"), passwordEncoder);
+        Member.register(new MemberRegisterRequest("email@github.com", "nick", "pass"), passwordEncoder);
     }
 }
