@@ -1,8 +1,8 @@
 package tobyspring.splearn.application.provided;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import tobyspring.splearn.SplearnTestConfiguration;
@@ -15,11 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Import(SplearnTestConfiguration.class)
+@Transactional
 @SpringBootTest
-public class MemberRegisterTest {
-
-    @Autowired
-    private MemberRegister memberRegister;
+public record MemberRegisterTest(MemberRegister memberRegister) {
 
     @Test
     @DisplayName("통합테스트")
