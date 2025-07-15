@@ -17,16 +17,24 @@ public class MemberService implements MemberRegister {
 
     @Override
     public Member register(final MemberRegisterRequest memberRegisterRequest) {
-        if (memberRepository.findByEmail(new Email(memberRegisterRequest.email())).isPresent()) {
-            throw new DuplicateEmailException("이미 사용 중인 이메일 입니다. : " + memberRegisterRequest.email());
-        };
+        checkDuplicateEmail(memberRegisterRequest);
 
         final Member member = Member.register(memberRegisterRequest, passwordEncoder);
 
         memberRepository.save(member);
 
-        emailSender.send(member.getEmail(), "등록을 완료해주세요.", "아래 링크를 클릭해서 등록을 완료해주세요.");
+        sendWelcomeEmail(member);
 
         return member;
+    }
+
+    private void sendWelcomeEmail(Member member) {
+        emailSender.send(member.getEmail(), "등록을 완료해주세요.", "아래 링크를 클릭해서 등록을 완료해주세요.");
+    }
+
+    private void checkDuplicateEmail(final MemberRegisterRequest memberRegisterRequest) {
+        if (memberRepository.findByEmail(new Email(memberRegisterRequest.email())).isPresent()) {
+            throw new DuplicateEmailException("이미 사용 중인 이메일 입니다. : " + memberRegisterRequest.email());
+        }
     }
 }
