@@ -9,5 +9,4 @@ public class SplearnApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SplearnApplication.class, args);
 	}
-
 }

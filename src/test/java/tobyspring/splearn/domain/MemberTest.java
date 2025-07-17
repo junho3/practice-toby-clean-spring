@@ -80,14 +80,14 @@ class MemberTest {
     @Test
     @DisplayName("verifyPassword()")
     void test7() {
-        assertThat(member.verifyPassword("password", passwordEncoder)).isTrue();
+        assertThat(member.verifyPassword("password12345", passwordEncoder)).isTrue();
         assertThat(member.verifyPassword("fail", passwordEncoder)).isFalse();
     }
 
     @Test
     @DisplayName("changeNickname()")
     void test8() {
-        assertThat(member.getNickname()).isEqualTo("test");
+        assertThat(member.getNickname()).isEqualTo("test1234");
 
         member.changeNickname("apple");
 
