@@ -29,6 +29,7 @@ class MemberRegisterManualTest {
     @DisplayName("stub 테스트 - 값 검증")
     void test1() {
         final MemberRegister memberRegister = new MemberModifyService(
+                new MemberFinderMock(),
                 new MemberRepositoryStub(),
                 new EmailSenderStub(),
                 MemberFixture.createPasswordEncoder()
@@ -45,6 +46,7 @@ class MemberRegisterManualTest {
     void test2() {
         final EmailSenderMock emailSenderMock = new EmailSenderMock();
         final MemberRegister memberRegister = new MemberModifyService(
+                new MemberFinderMock(),
                 new MemberRepositoryStub(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncoder()
@@ -64,6 +66,7 @@ class MemberRegisterManualTest {
     void test3() {
         final EmailSenderMock emailSenderMock = Mockito.mock(EmailSenderMock.class);
         final MemberRegister memberRegister = new MemberModifyService(
+                new MemberFinderMock(),
                 new MemberRepositoryStub(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncoder()
@@ -110,6 +113,14 @@ class MemberRegisterManualTest {
         @Override
         public void send(Email email, String subject, String body) {
             tos.add(email);
+        }
+    }
+
+    static class MemberFinderMock implements MemberFinder {
+
+        @Override
+        public Member find(Long memberId) {
+            return null;
         }
     }
 }
