@@ -14,7 +14,7 @@ import tobyspring.splearn.domain.*;
 @Validated
 @Transactional
 @RequiredArgsConstructor // Refactor > Delombok 으로 lombok이 어떤 코드를 만드는지 알 수 있음
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
 
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;

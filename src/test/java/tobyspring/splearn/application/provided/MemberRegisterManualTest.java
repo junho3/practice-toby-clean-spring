@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
-import tobyspring.splearn.application.MemberService;
+import tobyspring.splearn.application.MemberModifyService;
 import tobyspring.splearn.application.required.EmailSender;
 import tobyspring.splearn.application.required.MemberRepository;
 import tobyspring.splearn.domain.Email;
@@ -28,7 +28,7 @@ class MemberRegisterManualTest {
     @Test
     @DisplayName("stub 테스트 - 값 검증")
     void test1() {
-        final MemberRegister memberRegister = new MemberService(
+        final MemberRegister memberRegister = new MemberModifyService(
                 new MemberRepositoryStub(),
                 new EmailSenderStub(),
                 MemberFixture.createPasswordEncoder()
@@ -44,7 +44,7 @@ class MemberRegisterManualTest {
     @DisplayName("mock 테스트 - 행위 검증")
     void test2() {
         final EmailSenderMock emailSenderMock = new EmailSenderMock();
-        final MemberRegister memberRegister = new MemberService(
+        final MemberRegister memberRegister = new MemberModifyService(
                 new MemberRepositoryStub(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncoder()
@@ -63,7 +63,7 @@ class MemberRegisterManualTest {
     @DisplayName("mockito 테스트 - 행위 검증")
     void test3() {
         final EmailSenderMock emailSenderMock = Mockito.mock(EmailSenderMock.class);
-        final MemberRegister memberRegister = new MemberService(
+        final MemberRegister memberRegister = new MemberModifyService(
                 new MemberRepositoryStub(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncoder()
