@@ -1,13 +1,16 @@
 package tobyspring.splearn.application;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import tobyspring.splearn.application.provided.MemberRegister;
 import tobyspring.splearn.application.required.EmailSender;
 import tobyspring.splearn.application.required.MemberRepository;
 import tobyspring.splearn.domain.*;
 
 @Service
+@Validated
 @RequiredArgsConstructor // Refactor > Delombok 으로 lombok이 어떤 코드를 만드는지 알 수 있음
 public class MemberService implements MemberRegister {
 
@@ -16,7 +19,7 @@ public class MemberService implements MemberRegister {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Member register(final MemberRegisterRequest memberRegisterRequest) {
+    public Member register(@Valid final MemberRegisterRequest memberRegisterRequest) {
         checkDuplicateEmail(memberRegisterRequest);
 
         final Member member = Member.register(memberRegisterRequest, passwordEncoder);
