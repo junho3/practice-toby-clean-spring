@@ -37,7 +37,7 @@ record MemberFinderTest(
     @Test
     @DisplayName("find() 실패")
     void test2() {
-        assertThatThrownBy(() -> memberFinder.find(0L))
+        assertThatThrownBy(() -> memberFinder.find(9999L))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @Import(SplearnTestConfiguration.class)
 @Transactional
 @SpringBootTest
-public record MemberRegisterTest(
+record MemberRegisterTest(
         MemberRegister memberRegister,
         EntityManager entityManager
 ) {
@@ -35,7 +35,7 @@ public record MemberRegisterTest(
     @Test
     @DisplayName("중복 이메일 실패")
     void test2() {
-        final Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        memberRegister.register(MemberFixture.createMemberRegisterRequest());
 
         assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
