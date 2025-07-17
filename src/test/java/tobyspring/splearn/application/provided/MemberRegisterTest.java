@@ -1,5 +1,6 @@
 package tobyspring.splearn.application.provided;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @Import(SplearnTestConfiguration.class)
 @Transactional
 @SpringBootTest
-public record MemberRegisterTest(MemberRegister memberRegister) {
+public record MemberRegisterTest(
+        MemberRegister memberRegister,
+        EntityManager entityManager
+) {
 
     @Test
     @DisplayName("통합테스트")
@@ -57,5 +61,19 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
 
         assertThatThrownBy(() -> memberRegister.register(memberRegisterRequest))
                 .isInstanceOf(ConstraintViolationException.class);
+    }
+
+    @Test
+    @DisplayName("activate()는 Member를 activate 상태로 변경한다.")
+    void test5() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.activate(member.getId());
+
+        entityManager.flush();
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
     }
 }
