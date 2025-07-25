@@ -11,11 +11,7 @@ import java.util.regex.Pattern;
  *
  * hibernate 6.x, jpa 3.2 버전부터 record를 지원함
  */
-@Embeddable
-public record Email(
-        @Column(name = "email_address", length = 150, nullable = false)
-        String address
-) {
+public record Email(String address) {
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
 
