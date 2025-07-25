@@ -2,3 +2,5 @@ spring:
   application.name: splearn
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update # 스키마가 없으면 create, 있으면 변경사항을 update
