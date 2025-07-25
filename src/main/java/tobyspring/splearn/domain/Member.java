@@ -20,6 +20,10 @@ import static org.springframework.util.Assert.state;
  * 순수한 도메인으로 만들었을 때와 코드가 달라져야하는데, 어노테이션만으로는 차이가 없음
  */
 @Getter
+@Table(
+        name = "MEMBER",
+        uniqueConstraints = @UniqueConstraint(name = "UK_MEMBER_EMAIL_ADDRESS", columnNames = "email_address")
+)
 @Entity
 @ToString
 @NaturalIdCache // 영속성 컨텍스트에서 @NaturalId가 붙은 필드를 기준으로 캐싱해줌

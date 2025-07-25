@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 @Embeddable
 public record Email(
-        @Column(length = 150, nullable = false)
+        @Column(name = "email_address", length = 150, nullable = false)
         String address
 ) {
     private static final Pattern EMAIL_PATTERN =
