@@ -18,10 +18,12 @@ import static org.springframework.util.Assert.state;
  * 어노테이션의 의미는 주석
  * 어노테이션 때문에 특별한 동작을 수행하는 프레임워크가 아니라면 기술에 의존인건 아님
  * 순수한 도메인으로 만들었을 때와 코드가 달라져야하는데, 어노테이션만으로는 차이가 없음
+ *
+ * XML 방식을 사용해서 JPA 관련 어노테이션과 설정을 걷어낼 수 있음
  */
 @Entity
 @Getter
-@ToString
+@ToString(callSuper = true) // AbstractEntity 내용까지 포함하여 출력
 @NaturalIdCache // 영속성 컨텍스트에서 @NaturalId가 붙은 필드를 기준으로 캐싱해줌
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends AbstractEntity {
