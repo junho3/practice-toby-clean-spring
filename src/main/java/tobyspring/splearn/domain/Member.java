@@ -28,10 +28,7 @@ import static org.springframework.util.Assert.state;
 @ToString
 @NaturalIdCache // 영속성 컨텍스트에서 @NaturalId가 붙은 필드를 기준으로 캐싱해줌
 @NoArgsConstructor(access = PROTECTED)
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Member extends AbstractEntity {
 
     @Embedded
     @NaturalId // hibernate에서 제공하는 어노테이션으로 테이블 생성 시 컬럼에 유니크키 설정이 됨
