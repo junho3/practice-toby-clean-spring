@@ -33,10 +33,13 @@ public class Member {
     @NaturalId // hibernate에서 제공하는 어노테이션으로 테이블 생성 시 컬럼에 유니크키 설정이 됨
     private Email email;
 
+    @Column(length = 100, nullable = false)
     private String nickname;
 
+    @Column(length = 200, nullable = false)
     private String passwordHash;
 
+    @Column(length = 50, nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
