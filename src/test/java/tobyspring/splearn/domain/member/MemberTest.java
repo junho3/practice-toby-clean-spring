@@ -27,6 +27,7 @@ class MemberTest {
     @DisplayName("Member를 생성한다.")
     void test1() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Disabled("SpotBug 플러그인에서 Nullable을 체크하여 Disabled 처리")
@@ -40,9 +41,12 @@ class MemberTest {
     @Test
     @DisplayName("activate()는 Member를 활성 상태로 변경한다.")
     void test3() {
+        assertThat(member.getDetail().getActivatedAt()).isNull();
+
         member.activate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
 
     @Test

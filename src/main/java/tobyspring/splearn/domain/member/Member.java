@@ -25,7 +25,7 @@ import static org.springframework.util.Assert.state;
  */
 @Entity
 @Getter
-@ToString(callSuper = true) // AbstractEntity 내용까지 포함하여 출력
+@ToString(callSuper = true, exclude = "detail") // AbstractEntity 내용까지 포함하여 출력, detail은 제외
 @NaturalIdCache // 영속성 컨텍스트에서 @NaturalId가 붙은 필드를 기준으로 캐싱해줌
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends AbstractEntity {
@@ -38,7 +38,7 @@ public class Member extends AbstractEntity {
 
     private MemberStatus status;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest memberRegisterRequest, PasswordEncoder passwordEncoder) {
@@ -48,6 +48,7 @@ public class Member extends AbstractEntity {
         member.nickname = requireNonNull(memberRegisterRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(memberRegisterRequest.password()));
         member.status = MemberStatus.PENDING;
+        member.detail = MemberDetail.create();
 
         return member;
     }
@@ -56,12 +57,14 @@ public class Member extends AbstractEntity {
         state(MemberStatus.PENDING == status, "PENDING 상태가 아닙니다.");
 
         this.status = MemberStatus.ACTIVE;
+        this.detail.activated();
     }
 
     public void deactivate() {
         state(MemberStatus.ACTIVE == status, "ACTIVE 상태가 아닙니다.");
 
         this.status = MemberStatus.DEACTIVATED;
+        this.detail.deactivated();
     }
 
     public boolean verifyPassword(String password, PasswordEncoder passwordEncoder) {
