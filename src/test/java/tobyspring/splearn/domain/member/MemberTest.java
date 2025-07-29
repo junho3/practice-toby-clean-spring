@@ -1,4 +1,4 @@
-package tobyspring.splearn.domain;
+package tobyspring.splearn.domain.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static tobyspring.splearn.domain.MemberFixture.createMemberRegisterRequest;
-import static tobyspring.splearn.domain.MemberFixture.createPasswordEncoder;
+import static tobyspring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
+import static tobyspring.splearn.domain.member.MemberFixture.createPasswordEncoder;
 
 @DisplayName("Member")
 class MemberTest {
@@ -27,6 +27,7 @@ class MemberTest {
     @DisplayName("Member를 생성한다.")
     void test1() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Disabled("SpotBug 플러그인에서 Nullable을 체크하여 Disabled 처리")
@@ -40,9 +41,12 @@ class MemberTest {
     @Test
     @DisplayName("activate()는 Member를 활성 상태로 변경한다.")
     void test3() {
+        assertThat(member.getDetail().getActivatedAt()).isNull();
+
         member.activate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
 
     @Test
@@ -124,5 +128,18 @@ class MemberTest {
         ).isInstanceOf(IllegalArgumentException.class);
 
         Member.register(createMemberRegisterRequest(), passwordEncoder);
+    }
+
+    @Test
+    @DisplayName("updateInfo()")
+    void test12() {
+        member.activate();
+
+        var request = new MemberInfoUpdateRequest("macbook", "www01234", "자기소개");
+        member.updateInfo(request);
+        
+        assertThat(member.getNickname()).isEqualTo(request.nickname());
+        assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
+        assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
     }
 }

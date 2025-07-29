@@ -1,4 +1,4 @@
-package tobyspring.splearn.application.provided;
+package tobyspring.splearn.application.member.provided;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import tobyspring.splearn.SplearnTestConfiguration;
-import tobyspring.splearn.domain.*;
+import tobyspring.splearn.domain.member.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
