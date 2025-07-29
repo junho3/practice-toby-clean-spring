@@ -3,6 +3,7 @@ package tobyspring.splearn.domain.member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,9 +20,17 @@ class ProfileTest {
     @Test
     @DisplayName("Profile 실패 케이스")
     void test2() {
-//        assertThatThrownBy(() -> new Profile("")).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Profile("")).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> new Profile("12345678901234567")).isInstanceOf(IllegalArgumentException.class);
-//        assertThatThrownBy(() -> new Profile("XXXX")).isInstanceOf(IllegalArgumentException.class);
-//        assertThatThrownBy(() -> new Profile("프로필")).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Profile("XXXX")).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Profile("프로필")).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("url()")
+    void test3() {
+        var profile = new Profile("macbook");
+
+        assertThat(profile.url()).isEqualTo("@macbook");
     }
 }

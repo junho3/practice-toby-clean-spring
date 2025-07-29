@@ -9,6 +9,8 @@ import org.hibernate.annotations.NaturalIdCache;
 import tobyspring.splearn.domain.AbstractEntity;
 import tobyspring.splearn.domain.shared.Email;
 
+import java.util.Objects;
+
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.util.Assert.state;
@@ -65,6 +67,12 @@ public class Member extends AbstractEntity {
 
         this.status = MemberStatus.DEACTIVATED;
         this.detail.deactivated();
+    }
+
+    public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        this.nickname = Objects.requireNonNull(updateRequest.nickname());
+
+        this.detail.updateInfo(updateRequest);
     }
 
     public boolean verifyPassword(String password, PasswordEncoder passwordEncoder) {

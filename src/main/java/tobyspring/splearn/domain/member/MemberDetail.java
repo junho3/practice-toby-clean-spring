@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 import tobyspring.splearn.domain.AbstractEntity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
@@ -37,15 +38,20 @@ public class MemberDetail extends AbstractEntity {
         return memberDetail;
     }
 
-    public void activated() {
+    void activated() {
         Assert.isTrue(activatedAt == null, "이미 ActivatedAt는 설정되었습니다.");
 
         this.activatedAt = LocalDateTime.now();
     }
 
-    public void deactivated() {
+    void deactivated() {
         Assert.isTrue(deactivatedAt == null, "이미 DeactivatedAt는 설정되었습니다.");
 
         this.deactivatedAt = LocalDateTime.now();
+    }
+
+    void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        this.profile = new Profile(updateRequest.profileAddress());
+        this.introduction = Objects.requireNonNull(updateRequest.introduction());
     }
 }

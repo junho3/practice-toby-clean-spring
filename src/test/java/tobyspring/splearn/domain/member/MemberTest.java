@@ -129,4 +129,17 @@ class MemberTest {
 
         Member.register(createMemberRegisterRequest(), passwordEncoder);
     }
+
+    @Test
+    @DisplayName("updateInfo()")
+    void test12() {
+        member.activate();
+
+        var request = new MemberInfoUpdateRequest("macbook", "www01234", "자기소개");
+        member.updateInfo(request);
+        
+        assertThat(member.getNickname()).isEqualTo(request.nickname());
+        assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
+        assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
+    }
 }
