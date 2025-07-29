@@ -1,4 +1,4 @@
-package tobyspring.splearn.domain;
+package tobyspring.splearn.domain.member;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+import tobyspring.splearn.domain.AbstractEntity;
+import tobyspring.splearn.domain.shared.Email;
 
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
@@ -36,6 +38,7 @@ public class Member extends AbstractEntity {
 
     private MemberStatus status;
 
+    @OneToOne
     private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest memberRegisterRequest, PasswordEncoder passwordEncoder) {

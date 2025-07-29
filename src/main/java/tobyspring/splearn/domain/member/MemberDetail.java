@@ -1,11 +1,10 @@
-package tobyspring.splearn.domain;
+package tobyspring.splearn.domain.member;
 
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
+import tobyspring.splearn.domain.AbstractEntity;
 
 import java.time.LocalDateTime;
 

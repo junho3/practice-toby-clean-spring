@@ -1,4 +1,4 @@
-package tobyspring.splearn.domain;
+package tobyspring.splearn.domain.member;
 
 /**
  * PasswordEncoder의 기술적인 요소 때문에 required에 위치시켜야하는 의문이 들 수 있음
