@@ -66,14 +66,88 @@ record MemberRegisterTest(
     @Test
     @DisplayName("activate()는 Member를 activate 상태로 변경한다.")
     void test5() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
-        entityManager.flush();
-        entityManager.clear();
+        Member member = registerMember();
 
         member = memberRegister.activate(member.getId());
 
         entityManager.flush();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("deactivate()는 Member를 deactivate 상태로 변경한다.")
+    void test6() {
+        Member member = registerMember();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.deactivate(member.getId());
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("updateInfo() - 성공")
+    void test7() {
+        Member member = registerMember();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("macbook", "www01234", "자기소개"));
+
+        assertThat(member.getDetail().getProfile().address()).isEqualTo("www01234");
+    }
+
+    @Test
+    @DisplayName("updateInfo() - 중복 프로필 주소 실패")
+    void test8() {
+        Member member = registerMember();
+        memberRegister.activate(member.getId());
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("macbook", "www01234", "자기소개"));
+
+        Member member2 = registerMember("newtest@app.com");
+        memberRegister.activate(member2.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        // member2가 member와 동일한 프로필 주소를 사용하려고 할 때 예외 발생
+        assertThatThrownBy(() -> memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("macmini", "www01234", "자기소개")))
+                .isInstanceOf(DuplicateProfileException.class);
+
+        // member2가 다른 프로필 주소를 사용하려고 할 때 성공
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("macmini", "aaa01234", "자기소개"));
+
+        // 기존 프로필 주소로 바꾸는 것 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("macbook", "www01234", "자기소개"));
+
+        // 프로필 주소를 제거하는 것 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("macbook", "", "자기소개"));
+
+        // 프로필 주소 중복 불가능
+        assertThatThrownBy(() -> memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("macbook", "aaa01234", "자기소개")))
+                .isInstanceOf(DuplicateProfileException.class);
+    }
+
+    private Member registerMember() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+
+        return member;
+    }
+
+    private Member registerMember(String email) {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest(email));
+        entityManager.flush();
+        entityManager.clear();
+
+        return member;
     }
 }

@@ -14,6 +14,8 @@ import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.util.Assert.state;
+import static tobyspring.splearn.domain.member.MemberStatus.ACTIVE;
+import static tobyspring.splearn.domain.member.MemberStatus.PENDING;
 
 /**
  * 코드에 어노테이션이 있다고 기술에 의존적(종속적)으로 되었는가?
@@ -40,7 +42,6 @@ public class Member extends AbstractEntity {
 
     private MemberStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest memberRegisterRequest, PasswordEncoder passwordEncoder) {
@@ -49,27 +50,29 @@ public class Member extends AbstractEntity {
         member.email = new Email(memberRegisterRequest.email());
         member.nickname = requireNonNull(memberRegisterRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(memberRegisterRequest.password()));
-        member.status = MemberStatus.PENDING;
+        member.status = PENDING;
         member.detail = MemberDetail.create();
 
         return member;
     }
 
     public void activate() {
-        state(MemberStatus.PENDING == status, "PENDING 상태가 아닙니다.");
+        state(PENDING == status, "PENDING 상태가 아닙니다.");
 
-        this.status = MemberStatus.ACTIVE;
+        this.status = ACTIVE;
         this.detail.activated();
     }
 
     public void deactivate() {
-        state(MemberStatus.ACTIVE == status, "ACTIVE 상태가 아닙니다.");
+        state(ACTIVE == status, "ACTIVE 상태가 아닙니다.");
 
         this.status = MemberStatus.DEACTIVATED;
         this.detail.deactivated();
     }
 
     public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        state(ACTIVE == status, "등록 완료 상태가 아니라면 정보를 수정할 수 없습니다.");
+
         this.nickname = Objects.requireNonNull(updateRequest.nickname());
 
         this.detail.updateInfo(updateRequest);
@@ -79,15 +82,11 @@ public class Member extends AbstractEntity {
         return passwordEncoder.matches(password, this.passwordHash);
     }
 
-    public void changeNickname(String nickname) {
-        this.nickname = requireNonNull(nickname);
-    }
-
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
         this.passwordHash = passwordEncoder.encode(requireNonNull(password));
     }
 
     public boolean isActive() {
-        return MemberStatus.ACTIVE == this.status;
+        return ACTIVE == this.status;
     }
 }
