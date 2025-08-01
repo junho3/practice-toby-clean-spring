@@ -4,3 +4,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update # 스키마가 없으면 create, 있으면 변경사항을 update
+  docker:
+    compose:
+      lifecycle-management: start_only # Docker 컨테이너가 없을 때는 시작만 하고, 있으면 중지하지 않음

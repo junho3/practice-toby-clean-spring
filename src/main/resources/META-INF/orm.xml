@@ -50,6 +50,9 @@
             <unique-constraint name="UK_MEMBER_DETAIL_PROFILE_ADDRESS">
                 <column-name>profile_address</column-name>
             </unique-constraint>
+            <unique-constraint name="UK_MEMBER_DETAIL_ID">
+                <column-name>detail_id</column-name>
+            </unique-constraint>
         </table>
         <attributes>
             <basic name="introduction">
