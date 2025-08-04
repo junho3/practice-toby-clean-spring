@@ -1,5 +1,6 @@
 package tobyspring.splearn.adapter.webapi;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ public class MemberApi {
     private final MemberRegister memberRegister;
 
     @PostMapping("/api/v1/members")
-    public MemberRegisterResponse register(@RequestBody MemberRegisterRequest request) {
+    public MemberRegisterResponse register(@Valid @RequestBody MemberRegisterRequest request) {
         final Member member = memberRegister.register(request);
 
         return MemberRegisterResponse.of(member);

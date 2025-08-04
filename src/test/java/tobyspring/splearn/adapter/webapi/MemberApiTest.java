@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -50,5 +49,17 @@ class MemberApiTest {
                 .isEqualTo(1);
 
         verify(memberRegister).register(memberRegisterRequest);
+    }
+
+    @Test
+    @DisplayName("[POST] /api/v1/members - 400 ERROR")
+    void test2() throws JsonProcessingException {
+        MemberRegisterRequest memberRegisterRequest = createMemberRegisterRequest("invalid email");
+        String requestBody = objectMapper.writeValueAsString(memberRegisterRequest);
+
+        assertThat(mockMvcTester.post().uri("/api/v1/members")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
+                .hasStatus4xxClientError();
     }
 }
