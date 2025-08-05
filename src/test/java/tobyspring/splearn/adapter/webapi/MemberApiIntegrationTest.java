@@ -31,7 +31,7 @@ import static tobyspring.splearn.domain.member.MemberFixture.createMemberRegiste
 @SpringBootTest
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-public class MemberApiIntegrationTest {
+class MemberApiIntegrationTest {
 
     private final MockMvcTester mockMvcTester;
     private final ObjectMapper objectMapper;
