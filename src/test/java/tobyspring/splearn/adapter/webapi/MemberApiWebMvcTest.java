@@ -21,9 +21,9 @@ import static tobyspring.splearn.domain.member.MemberFixture.createMember;
 import static tobyspring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
 
 @WebMvcTest(MemberApi.class)
-@DisplayName("MemberApi")
+@DisplayName("MemberApiWebMvc")
 @RequiredArgsConstructor
-class MemberApiTest {
+class MemberApiWebMvcTest {
     @MockitoBean
     private MemberRegister memberRegister;
 
